@@ -17,4 +17,6 @@ https://git-scm.com/
 
 Clone the Repository
 ----------------------------------
+Once you have git setup, enter this git command to clone the repository so that you can use it for your own use.
 
+git clone https://github.com/teateatime/Password-Encryption-Management-Storage-System.git
