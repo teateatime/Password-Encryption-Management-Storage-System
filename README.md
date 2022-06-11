@@ -5,7 +5,7 @@ if its weak while also being encrypted to ensure data privacy among users using 
 
 How to set it up and use it:
 
-First, check if you git installed.
+First, check if you have git installed.
 ----------------------------------
 
 You can do this by entering "git --version" inside the terminal.
