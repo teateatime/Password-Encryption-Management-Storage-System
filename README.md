@@ -5,7 +5,8 @@ if its weak while also being encrypted to ensure data privacy among users using 
 
 How to set it up and use it:
 
-1) First, check if you git installed.
+First, check if you git installed.
+----------------------------------
 
 You can do this by entering "git --version" inside the terminal.
 
@@ -14,4 +15,6 @@ Here is one of the sources to help you with getting git setup in your system.
                                                                             
 https://git-scm.com/
 
-2) Clone the Repository
+Clone the Repository
+----------------------------------
+
