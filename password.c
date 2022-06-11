@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+
 #include "password.h"
 #include "my_string.h"
 
@@ -188,6 +189,45 @@ PASS Password_Calc_Strength2(password* str, char* s) {
             return (PASS) pass;
         }
 
+        MY_STRING s1 = my_string_init_c_string(pass->data);
+        MY_STRING s2 = NULL;
+        size_t len = 0;
+        int counter = 0;
+        char* rpass = NULL;
+
+        FILE* fp = fopen("Text/dictionary.txt", "r");
+
+        if (!fp) {
+            printf("File cannot open.\n");
+            exit(1);
+        }
+
+        while ((len = getline(&rpass, &len, fp)) != EOF) {
+            s2 = my_string_init_c_string(rpass);
+            if (my_string_equal(s1, s2)) {
+                counter++;
+            }
+
+            if (counter == 1) {
+                my_string_destroy(&s1);
+                my_string_destroy(&s2);
+
+                printf("Error: Password is too common\n");
+                pass->strength = 0;
+
+                free(rpass);
+
+                fclose(fp);
+                return (PASS) pass;
+            }
+            my_string_destroy(&s2);
+        }
+
+        my_string_destroy(&s1);
+
+        free(rpass);
+        fclose(fp);
+
         int i = 0;
         for (i = 0; i <= pass->size - 1; i++) {
             if ((pass->data[i] == pass->data[i + 1])) {
@@ -239,7 +279,7 @@ PASS Update_Password(char* s) {
     }
     password* bad = NULL;
     int strength = 0;
-    char list[] = "1234567890qwertyuiopasdfghjklzxcvbnm!@#$%^&*()_-+=QWERTYUIOPASDFGHJKLZXCVBNM[]{};:\"<>,.?/|";
+    char list[] = "1234567890qwertyuiopasdfghjklzxcvbnm!@#%^&*()_-+=QWERTYUIOPASDFGHJKLZXCVBNM[]{};:\"<>,.?/|";
     char arr[16] = {'a'};
     srand(time(0));
 
@@ -277,30 +317,25 @@ PASS Update_Password_By_Scramble(char* s, char* p) {
         exit(1);
     }
     MY_STRING str = my_string_init_c_string(p);
-    MY_STRING list = my_string_init_default();
 
     char* s1 = my_string_c_str(str);
-    char* s2 = my_string_c_str(str);
+    srand(time(NULL)); int r; int x;
 
-    if (s2 == NULL) {
-        printf("Bad\n");
-    }
-    srand(time(NULL)); int r;
     int size = my_string_get_size(str);
-
-    for (int i = 0; i < my_string_get_size(str); i++) {
+    int i = 0;
+    while (i < size) {
         r = rand() % size;
-        while (s1[i] == s2[r]) {
-            r = rand() % size;
-            int x = r;
-            s2[r] = s2[x];
+        x = rand() % size;
+
+        if (r != x) {
+            s1[r] ^= s1[x];
+            s1[x] = s1[r] ^ s1[x];
+            s1[r] ^= s1[x];
+            i++;
         }
-        s1[i] = s2[r];
-        my_string_push_back(list, s1[i]);
     }
 
     password* p2 = Password_Str(s1);
-    my_string_destroy(&list);
     my_string_destroy(&str);
 
     return (PASS) p2;
