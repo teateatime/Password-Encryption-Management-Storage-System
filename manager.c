@@ -228,6 +228,7 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
 
     printf("Data inserted in PASSWORD table successfully\n");
     printf("Encrpyted Password String: %s\n", s);
+    printf("Password ID for this pass is: %d\n", rNum);
 
     password_destroy(&p);
     free(line);
@@ -479,6 +480,7 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
 
     printf("Data inserted in PASSWORD table successfully\n");
     printf("Encrpyted Password String: %s\n", s);
+    printf("Password ID for this pass is: %d\n", rNum);
 
     int answer;
     printf("\n");
@@ -695,6 +697,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
 
     printf("Data inserted in PASSWORD table successfully\n");
     printf("Encrpyted Password String: %s\n", t);
+    printf("Password ID for this pass is: %d\n", rNum);
 
     password_destroy(&p);
     free(line);
