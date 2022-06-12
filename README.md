@@ -1,6 +1,6 @@
 # Password-Encryption-Management-Storage-System
 
-A password encryption management storage system that can help manage your password and store them inside a database for safe keeping.
+A password storage system that can help manage your password and store them inside a database for safe keeping.
 It has several features and operations to help make your password strong and secure.
 For instance, the system is capable to test the strength of your password that you want to store 
 and also have the ability to scramble your password as well as generate random passwords for
