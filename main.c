@@ -3,6 +3,7 @@
 #include "my_string.h"
 #include "password.h"
 #include "manager.h"
+#include "support.h"
 
 int PEMS(int* IDNum);
 
@@ -153,7 +154,7 @@ int main(int argc, char* argv[]) {
             strcat(stri, stri4);
             strcat(stri, stri3);
 
-            if (NameChecker2(stri)) {
+            if (LoginChecker(stri)) {
                 truth_counter++;
             }
 
@@ -268,7 +269,7 @@ int main(int argc, char* argv[]) {
         strcat(stri7, stri6);
         strcat(stri7, stri5);
 
-        if (NameChecker2(stri7)) {
+        if (LoginChecker(stri7)) {
             truth_counter++;
         }
 
