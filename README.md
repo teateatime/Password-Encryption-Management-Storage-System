@@ -1,9 +1,12 @@
 # Password-Encryption-Management-Storage-System
 
-A password encryption management storage system that can randomly generate a password for you to store
-if the password you entered is weak while also being encrypted to ensure data privacy among users using the system.
-It can also help test the strength of your password that you want to store and it can scramble your password as well.
+A password encryption management storage system that can help manage your password and store them inside a database for safe keeping.
+It has several features and operations to help make your password safe and secure like being able to
+test the strength of your password that you want to store and also have the ability to scramble your password as well as generate random passwords for
+you to utilize.
 It also enables search, update, and delete operations for the passwords that you want to select.
+If you happen to struggle to find a place to keep your password safely or not sure if its strong enough this is the system
+that can help you with this particular issue.
 
 How to set it up and use it:
 
