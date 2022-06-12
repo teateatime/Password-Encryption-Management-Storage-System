@@ -27,7 +27,7 @@ void TestPassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength again\n");
     printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -239,7 +239,7 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength\n");
     printf("Press (3) if you want us to generate another password for you and store it for safe keeping again\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -487,7 +487,7 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want again\n");
     printf("Press (2) if you want to test your password strength\n");
     printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -678,6 +678,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
     PASS p = Update_Password_By_Scramble(arr, line2);
 
     char* t = getData(p);
+
     printf("Scrambled Password for you to use and store: %s\n", t);
 
     Encryption(t);
@@ -710,7 +711,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength\n");
     printf("Press (3) if you want us to generate another password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping again\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping again\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -873,7 +874,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Press (1) if you want to store the password you want\n");
                 printf("Press (2) if you want to test your password strength again\n");
                 printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
                 printf("Press (5) if you want to search your password(s) inside the database\n");
                 printf("Press (6) if you want to update your password(s) inside the database again\n");
                 printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -948,7 +949,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Press (1) if you want to store the password you want\n");
                 printf("Press (2) if you want to test your password strength again\n");
                 printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
                 printf("Press (5) if you want to search your password(s) inside the database\n");
                 printf("Press (6) if you want to update your password(s) inside the database again\n");
                 printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1074,7 +1075,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Press (1) if you want to store the password you want\n");
                 printf("Press (2) if you want to test your password strength again\n");
                 printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
                 printf("Press (5) if you want to search your password(s) inside the database\n");
                 printf("Press (6) if you want to update your password(s) inside the database again\n");
                 printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1149,7 +1150,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Press (1) if you want to store the password you want\n");
                 printf("Press (2) if you want to test your password strength again\n");
                 printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
                 printf("Press (5) if you want to search your password(s) inside the database\n");
                 printf("Press (6) if you want to update your password(s) inside the database again\n");
                 printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1228,7 +1229,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             printf("Press (1) if you want to store the password you want\n");
             printf("Press (2) if you want to test your password strength again\n");
             printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
             printf("Press (5) if you want to search your password(s) inside the database\n");
             printf("Press (6) if you want to update your password(s) inside the database again\n");
             printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1341,7 +1342,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Press (1) if you want to store the password you want\n");
                 printf("Press (2) if you want to test your password strength again\n");
                 printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
                 printf("Press (5) if you want to search your password(s) inside the database\n");
                 printf("Press (6) if you want to update your password(s) inside the database again\n");
                 printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1413,7 +1414,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength again\n");
     printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database again\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1521,7 +1522,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
         printf("Press (1) if you want to store the password you want\n");
         printf("Press (2) if you want to test your password strength again\n");
         printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-        printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+        printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
         printf("Press (5) if you want to search your password(s) inside the database\n");
         printf("Press (6) if you want to update your password(s) inside the database again\n");
         printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1617,7 +1618,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength again\n");
     printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database again\n");
     printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1723,7 +1724,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
         printf("Press (1) if you want to store the password you want\n");
         printf("Press (2) if you want to test your password strength again\n");
         printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-        printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+        printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
         printf("Press (5) if you want to search your password(s) inside the database\n");
         printf("Press (6) if you want to update your password(s) inside the database again\n");
         printf("Press (7) if you want to delete your password(s) inside the database\n");
@@ -1927,7 +1928,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
     printf("Press (1) if you want to store the password you want\n");
     printf("Press (2) if you want to test your password strength again\n");
     printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
     printf("Press (5) if you want to search your password(s) inside the database\n");
     printf("Press (6) if you want to update your password(s) inside the database\n");
     printf("Press (7) if you want to delete your password(s) inside the database again\n");
