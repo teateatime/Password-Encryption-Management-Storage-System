@@ -30,5 +30,5 @@ Once you have git setup, enter this git command to clone the repository so that 
 
 `git clone` https://github.com/teateatime/Password-Encryption-Management-Storage-System.git
 
-and lastly once successfully cloned, run the command `./pass` inside the terminal to use it.
+and lastly once successfully cloned, run the command `make` to compile, and then `./pass` inside the terminal to use it.
 
