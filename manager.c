@@ -5,6 +5,8 @@
 #include "manager.h"
 #include "support.h"
 
+void printOptions(void);
+
 void TestPassword(char* arr, int* IDNum, sqlite3* db) {
     char* line = NULL;
     size_t len = 0;
@@ -23,15 +25,7 @@ void TestPassword(char* arr, int* IDNum, sqlite3* db) {
     free(line);
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength again\n");
-    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
 
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
@@ -47,9 +41,9 @@ void TestPassword(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
     }
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -190,7 +184,7 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
 
     int rNum = rand() % 999999 + 1;
 
-    IDChecker5(&rNum);
+    CreateNewPassIDAndWriteIt(&rNum);
 
     sprintf(tmp, "%d", *IDNum);
 
@@ -235,15 +229,8 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
     free(email);
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength\n");
-    printf("Press (3) if you want us to generate another password for you and store it for safe keeping again\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
+
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
     while (noc != 1) {
@@ -258,9 +245,9 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
     }
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -406,7 +393,7 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
 
     int rNum = rand() % 999999 + 1;
 
-    IDChecker5(&rNum);
+    CreateNewPassIDAndWriteIt(&rNum);
 
     sprintf(tmp, "%d", *IDNum);
 
@@ -483,15 +470,8 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Password ID for this pass is: %d\n", rNum);
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want again\n");
-    printf("Press (2) if you want to test your password strength\n");
-    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
+
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
     while (noc != 1) {
@@ -511,9 +491,9 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
     free(line2);
     free(email);
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -657,7 +637,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
 
     int rNum = rand() % 999999 + 1;
 
-    IDChecker5(&rNum);
+    CreateNewPassIDAndWriteIt(&rNum);
 
     sprintf(tmp, "%d", *IDNum);
 
@@ -707,15 +687,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
     free(email);
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength\n");
-    printf("Press (3) if you want us to generate another password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping again\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
 
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
@@ -731,9 +703,9 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
     }
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -810,8 +782,8 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
 
         item = "Email";
 
-        NameChecker(line);
-        emailChecker(line, IDNum);
+        EmailChecker(line);
+        checkIfLoginEmailExists(line, IDNum);
 
         int x = 0;
         while (line[x] != '\0') {
@@ -827,7 +799,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         strcat(dest, line);
         strcat(dest, squote);
 
-        int ret = sqlite3_exec(db, dest, PrintData, 0, &errMesg);
+        int ret = sqlite3_exec(db, dest, PrintDataInDB, 0, &errMesg);
 
         if (ret != SQLITE_OK) {
             printf("Error in SQL statement: %s\n", errMesg);
@@ -863,22 +835,15 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             printf("\n");
 
             PasswordIDChecker(&num);
-            if (PasswordIDChecker2(&num, *IDNum) == FALSE) {
+            if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
                 printf("Incorrect email!\n");
                 printf("Please Try Again Later.\n");
 
                 free(line);
 
                 int answer;
-                printf("\n");
-                printf("Press (1) if you want to store the password you want\n");
-                printf("Press (2) if you want to test your password strength again\n");
-                printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-                printf("Press (5) if you want to search your password(s) inside the database\n");
-                printf("Press (6) if you want to update your password(s) inside the database again\n");
-                printf("Press (7) if you want to delete your password(s) inside the database\n");
-                printf("Press (8) to return to main\n");
+                printOptions();
+
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -894,9 +859,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                     clearKeyboardBuffer();
                 }
 
-                answerChecker(&answer);
-                answerChecker2(&answer);
-                answerChecker3(&answer, IDNum);
+                DatabaseIsNotFull(&answer);
+                DatabaseIsFull(&answer);
+                DatabaseIsEmptyForUser(&answer, IDNum);
 
                 while (answer > 0) {
                     if (answer == 1) {
@@ -945,15 +910,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 free(ref);
 
                 int answer;
-                printf("\n");
-                printf("Press (1) if you want to store the password you want\n");
-                printf("Press (2) if you want to test your password strength again\n");
-                printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-                printf("Press (5) if you want to search your password(s) inside the database\n");
-                printf("Press (6) if you want to update your password(s) inside the database again\n");
-                printf("Press (7) if you want to delete your password(s) inside the database\n");
-                printf("Press (8) to return to main\n");
+                printOptions();
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -969,9 +926,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                     clearKeyboardBuffer();
                 }
 
-                answerChecker(&answer);
-                answerChecker2(&answer);
-                answerChecker3(&answer, IDNum);
+                DatabaseIsNotFull(&answer);
+                DatabaseIsFull(&answer);
+                DatabaseIsEmptyForUser(&answer, IDNum);
 
                 while (answer > 0) {
                     if (answer == 1) {
@@ -1018,8 +975,8 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
         printf("\n");
 
-        IDChecker2(&num);
-        IDChecker4(IDNum, &num);
+        CheckIfAccIDExist(&num);
+        CheckIfAccIDIsYours(IDNum, &num);
         item = "ID";
         char ntmp[50];
         sprintf(ntmp, "%d", num);
@@ -1030,7 +987,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         strcat(dest, ntmp);
         strcat(dest, squote);
 
-        int ret = sqlite3_exec(db, dest, PrintData, 0, &errMesg);
+        int ret = sqlite3_exec(db, dest, PrintDataInDB, 0, &errMesg);
 
         if (ret != SQLITE_OK) {
             printf("Error in SQL statement: %s\n", errMesg);
@@ -1066,20 +1023,12 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             printf("\n");
 
             PasswordIDChecker(&num);
-            if (PasswordIDChecker2(&num, *IDNum) == FALSE) {
+            if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
                 printf("Incorrect email!\n");
                 printf("Please Try Again Later.\n");
 
                 int answer;
-                printf("\n");
-                printf("Press (1) if you want to store the password you want\n");
-                printf("Press (2) if you want to test your password strength again\n");
-                printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-                printf("Press (5) if you want to search your password(s) inside the database\n");
-                printf("Press (6) if you want to update your password(s) inside the database again\n");
-                printf("Press (7) if you want to delete your password(s) inside the database\n");
-                printf("Press (8) to return to main\n");
+                printOptions();
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -1095,9 +1044,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                     clearKeyboardBuffer();
                 }
 
-                answerChecker(&answer);
-                answerChecker2(&answer);
-                answerChecker3(&answer, IDNum);
+                DatabaseIsNotFull(&answer);
+                DatabaseIsFull(&answer);
+                DatabaseIsEmptyForUser(&answer, IDNum);
 
                 while (answer > 0) {
                     if (answer == 1) {
@@ -1146,15 +1095,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 free(ref);
 
                 int answer;
-                printf("\n");
-                printf("Press (1) if you want to store the password you want\n");
-                printf("Press (2) if you want to test your password strength again\n");
-                printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-                printf("Press (5) if you want to search your password(s) inside the database\n");
-                printf("Press (6) if you want to update your password(s) inside the database again\n");
-                printf("Press (7) if you want to delete your password(s) inside the database\n");
-                printf("Press (8) to return to main\n");
+                printOptions();
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -1170,9 +1111,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                     clearKeyboardBuffer();
                 }
 
-                answerChecker(&answer);
-                answerChecker2(&answer);
-                answerChecker3(&answer, IDNum);
+                DatabaseIsNotFull(&answer);
+                DatabaseIsFull(&answer);
+                DatabaseIsEmptyForUser(&answer, IDNum);
 
                 while (answer > 0) {
                     if (answer == 1) {
@@ -1220,20 +1161,12 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         printf("\n");
 
         PasswordIDChecker(&num);
-        if (PasswordIDChecker2(&num, *IDNum) == FALSE) {
+        if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
             printf("Incorrect email!\n");
             printf("Please Try Again Later.\n");
 
             int answer;
-            printf("\n");
-            printf("Press (1) if you want to store the password you want\n");
-            printf("Press (2) if you want to test your password strength again\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database again\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to return to main\n");
+            printOptions();
 
             int noc = scanf("%d", &answer);
             clearKeyboardBuffer();
@@ -1249,9 +1182,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
 
             while (answer > 0) {
                 if (answer == 1) {
@@ -1299,7 +1232,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         strcat(dest, ntmp);
         strcat(dest, squote);
 
-        int ret = sqlite3_exec(db, dest, PrintData, 0, &errMesg);
+        int ret = sqlite3_exec(db, dest, PrintDataInDB, 0, &errMesg);
 
         if (ret != SQLITE_OK) {
             printf("Error in SQL statement: %s\n", errMesg);
@@ -1338,15 +1271,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 free(ref);
 
                 int answer;
-                printf("\n");
-                printf("Press (1) if you want to store the password you want\n");
-                printf("Press (2) if you want to test your password strength again\n");
-                printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-                printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-                printf("Press (5) if you want to search your password(s) inside the database\n");
-                printf("Press (6) if you want to update your password(s) inside the database again\n");
-                printf("Press (7) if you want to delete your password(s) inside the database\n");
-                printf("Press (8) to return to main\n");
+                printOptions();
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -1362,9 +1287,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                     clearKeyboardBuffer();
                 }
 
-                answerChecker(&answer);
-                answerChecker2(&answer);
-                answerChecker3(&answer, IDNum);
+                DatabaseIsNotFull(&answer);
+                DatabaseIsFull(&answer);
+                DatabaseIsEmptyForUser(&answer, IDNum);
 
                 while (answer > 0) {
                     if (answer == 1) {
@@ -1410,15 +1335,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
     // printf("%s\n", dest);
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength again\n");
-    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database again\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
 
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
@@ -1436,9 +1353,9 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
 
     free(line);
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -1482,7 +1399,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     char* line = NULL;
     size_t len = 0;
     size_t size = 0;
-    const char* data = "PrintData function called";
+    const char* data = "PrintDataInDB function called";
     printf("\nUpdating one of your current passwords?\n");
 
     char dest[120] = "UPDATE PASSWORD SET Password = '";
@@ -1505,7 +1422,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
     }
 
-    IDChecker7(&num, IDNum, db);
+    CheckIfPassIDIsYoursBeforeUpdating(&num, IDNum, db);
 
     char* ref = NULL;
     printf("Please enter your reference word in order to update your password:\n");
@@ -1518,15 +1435,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
         free(ref);
 
         int answer;
-        printf("\n");
-        printf("Press (1) if you want to store the password you want\n");
-        printf("Press (2) if you want to test your password strength again\n");
-        printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-        printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-        printf("Press (5) if you want to search your password(s) inside the database\n");
-        printf("Press (6) if you want to update your password(s) inside the database again\n");
-        printf("Press (7) if you want to delete your password(s) inside the database\n");
-        printf("Press (8) to return to main\n");
+        printOptions();
 
         int noc = scanf("%d", &answer);
         clearKeyboardBuffer();
@@ -1542,9 +1451,9 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
             clearKeyboardBuffer();
         }
 
-        answerChecker(&answer);
-        answerChecker2(&answer);
-        answerChecker3(&answer, IDNum);
+        DatabaseIsNotFull(&answer);
+        DatabaseIsFull(&answer);
+        DatabaseIsEmptyForUser(&answer, IDNum);
 
         while (answer > 0) {
             if (answer == 1) {
@@ -1604,7 +1513,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     printf("Encrypted password string: %s", li);
     printf("\n");
 
-    int ret = sqlite3_exec(db, dest, PrintData2, (void*)data, &errMesg);
+    int ret = sqlite3_exec(db, dest, PrintUpdatedDataInDB, (void*)data, &errMesg);
 
     if (ret != SQLITE_OK) {
         printf("Error in SQL statement: %s\n", errMesg);
@@ -1614,15 +1523,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     }
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength again\n");
-    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database again\n");
-    printf("Press (7) if you want to delete your password(s) inside the database\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
 
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
@@ -1641,9 +1542,9 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     free(line);
     free(ref);
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -1684,7 +1585,7 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
 }
 
 void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
-    const char* data = "PrintData function called";
+    const char* data = "PrintDataInDB function called";
     printf("\nDeleting one of your current passwords?\n");
 
     char dest[120] = "DELETE from PASSWORD WHERE PASS_ID =";
@@ -1707,7 +1608,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
         clearKeyboardBuffer();
     }
 
-    IDChecker7(&num, IDNum, db);
+    CheckIfPassIDIsYoursBeforeUpdating(&num, IDNum, db);
 
     char* ref = NULL;
     printf("Please enter your reference word in order to update your password:\n");
@@ -1720,15 +1621,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
         free(ref);
 
         int answer;
-        printf("\n");
-        printf("Press (1) if you want to store the password you want\n");
-        printf("Press (2) if you want to test your password strength again\n");
-        printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-        printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-        printf("Press (5) if you want to search your password(s) inside the database\n");
-        printf("Press (6) if you want to update your password(s) inside the database again\n");
-        printf("Press (7) if you want to delete your password(s) inside the database\n");
-        printf("Press (8) to return to main\n");
+        printOptions();
 
         int noc = scanf("%d", &answer);
         clearKeyboardBuffer();
@@ -1744,9 +1637,9 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
             clearKeyboardBuffer();
         }
 
-        answerChecker(&answer);
-        answerChecker2(&answer);
-        answerChecker3(&answer, IDNum);
+        DatabaseIsNotFull(&answer);
+        DatabaseIsFull(&answer);
+        DatabaseIsEmptyForUser(&answer, IDNum);
 
         while (answer > 0) {
             if (answer == 1) {
@@ -1794,7 +1687,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
 
     // printf("%s\n", dest);
 
-    int ret = sqlite3_exec(db, dest, PrintData2, (void*)data, &errMesg);
+    int ret = sqlite3_exec(db, dest, PrintUpdatedDataInDB, (void*)data, &errMesg);
 
     if (ret != SQLITE_OK) {
         printf("Error in SQL statement: %s\n", errMesg);
@@ -1924,15 +1817,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
     printf("Deleted Successfully!\n");
 
     int answer;
-    printf("\n");
-    printf("Press (1) if you want to store the password you want\n");
-    printf("Press (2) if you want to test your password strength again\n");
-    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-    printf("Press (5) if you want to search your password(s) inside the database\n");
-    printf("Press (6) if you want to update your password(s) inside the database\n");
-    printf("Press (7) if you want to delete your password(s) inside the database again\n");
-    printf("Press (8) to return to main\n");
+    printOptions();
 
     int noc = scanf("%d", &answer);
     clearKeyboardBuffer();
@@ -1952,9 +1837,9 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
     free(line2);
     free(ref);
 
-    answerChecker(&answer);
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsNotFull(&answer);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0) {
         if (answer == 1) {
@@ -1992,4 +1877,16 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
     }
 
     return;
+}
+
+void printOptions(void) {
+    printf("\n");
+    printf("Press (1) if you want to store the password you want\n");
+    printf("Press (2) if you want to test your password strength again\n");
+    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
+    printf("Press (5) if you want to search your password(s) inside the database\n");
+    printf("Press (6) if you want to update your password(s) inside the database\n");
+    printf("Press (7) if you want to delete your password(s) inside the database\n");
+    printf("Press (8) to return to main\n");
 }

@@ -6,6 +6,8 @@
 #include "support.h"
 
 int PEMS(int* IDNum);
+void printOptionsinMain(void);
+void CheckIfTwoUserInputValid(int r, int* userInput);
 
 int main(int argc, char* argv[]) {
     FILE* fplogin;
@@ -41,34 +43,14 @@ int main(int argc, char* argv[]) {
     int r = scanf("%d", &userInput);
     clearKeyboardBuffer();
 
-    while (r != 1) {
-        printf("Not a number between 1-2! Enter again!\n");
-        r = scanf("%d", &userInput);
-        clearKeyboardBuffer();
-    }
-
-    while (userInput < 1 || userInput > 2) {
-        printf("Not a number between 1-2! Enter again!\n");
-        scanf("%d", &userInput);
-        clearKeyboardBuffer();
-    }
+    CheckIfTwoUserInputValid(r, &userInput);
 
     while (userInput == 2 && b == 1) {
         printf("Account has not been created yet, please enter 1 instead.\n");
         scanf("%d", &userInput);
         clearKeyboardBuffer();
 
-        while (r != 1) {
-            printf("Not a number between 1-2! Enter again!\n");
-            r = scanf("%d", &userInput);
-            clearKeyboardBuffer();
-        }
-
-        while (userInput < 1 || userInput > 2) {
-            printf("Not a number between 1-2! Enter again!\n");
-            scanf("%d", &userInput);
-            clearKeyboardBuffer();
-        }
+        CheckIfTwoUserInputValid(r, &userInput);
     }
 
     fclose(fplogin);
@@ -97,7 +79,7 @@ int main(int argc, char* argv[]) {
         l = getline(&stri3, &l, stdin);
         stri3[l - 1] = '\0';
 
-        emailValid(stri3);
+        CheckIfEmailExistsAlready(stri3);
 
         printf("Enter your password:\n");
         l = getline(&stri4, &l, stdin);
@@ -112,7 +94,7 @@ int main(int argc, char* argv[]) {
 
         rNum = rand() % 999999 + 1;
 
-        IDChecker3(&rNum);
+        CreateNewAccID(&rNum);
 
         fprintf(fpID, "%d\n", rNum);
         fprintf(fpref, "%s\n", ref);
@@ -244,99 +226,114 @@ int main(int argc, char* argv[]) {
     char* stri8 = NULL;
 
     printf("\nAccount Created!\n");
-    while (1) {
-        printf("Please enter your first and last name and your password to continue\n");
-        printf("Enter your first name:\n");
-        l = getline(&stri7, &l, stdin);
-        stri7[l - 1] = '\0';
-        printf("Enter your last name:\n");
-        l = getline(&stri8, &l, stdin);
-        stri8[l - 1] = '\0';
-        printf("Enter your email address:\n");
-        l = getline(&stri5, &l, stdin);
-        stri5[l - 1] = '\0';
+    printf("Do you want to login or exit out of the program?\n");
+    printf("Enter (1) to login\n");
+    printf("Enter (2) to exit out\n");
 
-        printf("Enter your password:\n");
-        l = getline(&stri6, &l, stdin);
-        stri6[l - 1] = '\0';
+    r = scanf("%d", &userInput);
+    clearKeyboardBuffer();
 
-        int truth_counter = 0;
+    CheckIfTwoUserInputValid(r, &userInput);
 
-        strcat(stri7, " ");
-        strcat(stri8, " ");
-        strcat(stri6, " ");
-        strcat(stri7, stri8);
-        strcat(stri7, stri6);
-        strcat(stri7, stri5);
+    if (userInput == 1) {
+        while (1) {
+            printf("Please enter your first and last name and your password to continue\n");
+            printf("Enter your first name:\n");
+            l = getline(&stri7, &l, stdin);
+            stri7[l - 1] = '\0';
+            printf("Enter your last name:\n");
+            l = getline(&stri8, &l, stdin);
+            stri8[l - 1] = '\0';
+            printf("Enter your email address:\n");
+            l = getline(&stri5, &l, stdin);
+            stri5[l - 1] = '\0';
 
-        if (LoginChecker(stri7)) {
-            truth_counter++;
-        }
+            printf("Enter your password:\n");
+            l = getline(&stri6, &l, stdin);
+            stri6[l - 1] = '\0';
 
-        if (truth_counter == 1) {
-            FILE* fplog = fopen("Text/LoginStorage.txt", "r");
+            int truth_counter = 0;
 
-            if (!fplog) {
-                printf("File failed to open.\n");
-                exit(1);
+            strcat(stri7, " ");
+            strcat(stri8, " ");
+            strcat(stri6, " ");
+            strcat(stri7, stri8);
+            strcat(stri7, stri6);
+            strcat(stri7, stri5);
+
+            if (LoginChecker(stri7)) {
+                truth_counter++;
             }
 
-            MY_STRING s1 = my_string_init_c_string(stri7);
-            MY_STRING s2 = NULL;
-            char* strfp = NULL;
-            int lineNum = 1;
-            size_t lenSize = 0;
-            while ((lenSize = getline(&strfp, &lenSize, fplog)) != EOF) {
-                strfp[lenSize - 1] = '\0';
-                s2 = my_string_init_c_string(strfp);
-                if (my_string_equal(s1, s2)) {
-                    my_string_destroy(&s2);
-                    break;
-                } else {
-                    my_string_destroy(&s2);
-                    lineNum++;
+            if (truth_counter == 1) {
+                FILE* fplog = fopen("Text/LoginStorage.txt", "r");
+
+                if (!fplog) {
+                    printf("File failed to open.\n");
+                    exit(1);
                 }
-            }
 
-            free(strfp);
-            my_string_destroy(&s1);
-            fclose(fplog);
-
-            FILE* fpID = fopen("Text/ID_Storage.txt", "r");
-
-            if (!fpID) {
-                printf("File failed to open.\n");
-                exit(1);
-            }
-
-            int number;
-            int lineNum2 = 1;
-            while (fscanf(fpID, "%d", &number) != EOF) {
-                if (lineNum2 == lineNum) {
-                    break;
-                } else {
-                    lineNum2++;
+                MY_STRING s1 = my_string_init_c_string(stri7);
+                MY_STRING s2 = NULL;
+                char* strfp = NULL;
+                int lineNum = 1;
+                size_t lenSize = 0;
+                while ((lenSize = getline(&strfp, &lenSize, fplog)) != EOF) {
+                    strfp[lenSize - 1] = '\0';
+                    s2 = my_string_init_c_string(strfp);
+                    if (my_string_equal(s1, s2)) {
+                        my_string_destroy(&s2);
+                        break;
+                    } else {
+                        my_string_destroy(&s2);
+                        lineNum++;
+                    }
                 }
+
+                free(strfp);
+                my_string_destroy(&s1);
+                fclose(fplog);
+
+                FILE* fpID = fopen("Text/ID_Storage.txt", "r");
+
+                if (!fpID) {
+                    printf("File failed to open.\n");
+                    exit(1);
+                }
+
+                int number;
+                int lineNum2 = 1;
+                while (fscanf(fpID, "%d", &number) != EOF) {
+                    if (lineNum2 == lineNum) {
+                        break;
+                    } else {
+                        lineNum2++;
+                    }
+                }
+
+                IDNum = number;
+
+                printf("Logging in...\n");
+
+                free(stri7);
+                free(stri8);
+                free(stri5);
+                free(stri6);
+
+                fclose(fpID);
+                fclose(fplogin);
+
+                printf("Your Account ID# is %d\n", IDNum);
+                PEMS(&IDNum);
+                break;
+            } else {
+                printf("Incorrect Info! Try Again!\n");
             }
-
-            IDNum = number;
-
-            printf("Logging in...\n");
-
-            free(stri7);
-            free(stri8);
-            free(stri5);
-            free(stri6);
-
-            fclose(fpID);
-            fclose(fplogin);
-
-            printf("Your Account ID# is %d\n", IDNum);
-            PEMS(&IDNum);
-            break;
-        } else {
-            printf("Incorrect Info! Try Again!\n");
         }
+    } else {
+        fclose(fplogin);
+        printf("Exiting out program...\nHave a nice day.\n");
+        return 0;
     }
 
     return 0;
@@ -457,22 +454,15 @@ int PEMS(int* IDNum) {
         fclose(fp4);
     }
 
-    answerChecker2(&answer);
-    answerChecker3(&answer, IDNum);
+    DatabaseIsFull(&answer);
+    DatabaseIsEmptyForUser(&answer, IDNum);
 
     while (answer > 0 && answer < 9) {
         if (answer == 1) {
             printf("Entering StorePassword()...\n");
             StorePassword(arr, IDNum, db);
-            printf("\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -487,22 +477,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 2) {
             printf("Entering TestPassword()...\n");
             TestPassword(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -517,22 +500,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 3) {
             printf("Entering generatePassword()...\n");
             generatePassword(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -547,22 +523,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 4) {
             printf("Entering ScramblePassword()...\n");
             ScramblePassword(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -577,22 +546,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 5) {
             printf("Entering SearchPassword()...\n");
             SearchPassword(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -607,22 +569,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 6) {
             printf("Entering UpdateCurrentPass()...\n");
             UpdateCurrentPass(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -637,22 +592,15 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
+
         } else if (answer == 7) {
             printf("Entering DeletePasswordContent()...\n");
             DeletePasswordContent(arr, IDNum, db);
-            printf("\n");
-            printf("Back to Main\n");
-            printf("Press (1) if you want to store your password\n");
-            printf("Press (2) if you want to test your password strength\n");
-            printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
-            printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
-            printf("Press (5) if you want to search your password(s) inside the database\n");
-            printf("Press (6) if you want to update your password(s) inside the database\n");
-            printf("Press (7) if you want to delete your password(s) inside the database\n");
-            printf("Press (8) to quit\n");
+
+            printOptionsinMain();
             noc = scanf("%d", &answer);
             clearKeyboardBuffer();
             while (noc != 1) {
@@ -667,9 +615,9 @@ int PEMS(int* IDNum) {
                 clearKeyboardBuffer();
             }
 
-            answerChecker(&answer);
-            answerChecker2(&answer);
-            answerChecker3(&answer, IDNum);
+            DatabaseIsNotFull(&answer);
+            DatabaseIsFull(&answer);
+            DatabaseIsEmptyForUser(&answer, IDNum);
         } else {
             printf("Exiting out program...\nHave a nice day.\n");
             fclose(fp);
@@ -678,5 +626,33 @@ int PEMS(int* IDNum) {
             return 0;
         }
     }
+
     return 0;
+}
+
+void printOptionsinMain(void) {
+    printf("\n");
+    printf("Back to Main\n");
+    printf("Press (1) if you want to store your password\n");
+    printf("Press (2) if you want to test your password strength\n");
+    printf("Press (3) if you want us to generate a password for you and store it for safe keeping\n");
+    printf("Press (4) if you want to scramble your current password to create a new pass and store that for safe keeping\n");
+    printf("Press (5) if you want to search your password(s) inside the database\n");
+    printf("Press (6) if you want to update your password(s) inside the database\n");
+    printf("Press (7) if you want to delete your password(s) inside the database\n");
+    printf("Press (8) to quit\n");
+}
+
+void CheckIfTwoUserInputValid(int r, int* userInput) {
+    while (r != 1) {
+        printf("Not a number between 1-2! Enter again!\n");
+        r = scanf("%d", userInput);
+        clearKeyboardBuffer();
+    }
+
+    while (*userInput < 1 || *userInput > 2) {
+        printf("Not a number between 1-2! Enter again!\n");
+        scanf("%d", userInput);
+        clearKeyboardBuffer();
+    }
 }

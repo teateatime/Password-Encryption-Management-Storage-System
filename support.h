@@ -9,45 +9,45 @@
 
 void clearKeyboardBuffer(void);
 
-void IDChecker(int n);
+void CreateNewAccIDAndWriteIt(int n);
 
-void IDChecker2(int* num);
+void CheckIfAccIDExist(int* num);
 
-void IDChecker3(int* n);
+void CreateNewAccID(int* n);
 
-void IDChecker4(int* IDNum, int* num);
+void CheckIfAccIDIsYours(int* IDNum, int* num);
 
-void IDChecker5(int* n);
+void CreateNewPassIDAndWriteIt(int* n);
 
-void IDChecker6(int* n);
+void CheckIfPassIDExist(int* n);
 
-Boolean IDChecker7(int* num, int* acc, sqlite3* db);
+Boolean CheckIfPassIDIsYoursBeforeUpdating(int* num, int* acc, sqlite3* db);
 
-void NameChecker(char* name);
+void EmailChecker(char* name);
 
 Boolean LoginChecker(char* line);
 
-void answerChecker(int* answer);
+void DatabaseIsNotFull(int* answer);
 
-void answerChecker2(int* answer);
+void DatabaseIsFull(int* answer);
 
-void answerChecker3(int* answer, int* IDNum);
+void DatabaseIsEmptyForUser(int* answer, int* IDNum);
 
-void emailChecker(char* line, int* IDNum);
+void checkIfLoginEmailExists(char* line, int* IDNum);
 
 Boolean refWordValidCheck(char* ref, int* IDNum);
 
 void PasswordIDChecker(int* num);
 
-Boolean PasswordIDChecker2(int* num, int IDNum);
+Boolean CheckIfPasswordID_IsYours(int* num, int IDNum);
 
-Boolean emailValid(char* email);
+Boolean CheckIfEmailExistsAlready(char* email);
 
-char* emailValid2(char* email, int IDNum);
+char* CheckIfItsYourEmail(char* email, int IDNum);
 
-int PrintData(void *NotUsed, int argc, char **argv, char **ColName);
+int PrintDataInDB(void *NotUsed, int argc, char **argv, char **ColName);
 
-int PrintData2(void *data, int argc, char **argv, char **ColName);
+int PrintUpdatedDataInDB(void *data, int argc, char **argv, char **ColName);
 
 void Encryption(char* line);
 

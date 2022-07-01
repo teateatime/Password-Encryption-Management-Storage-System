@@ -15,7 +15,7 @@ void clearKeyboardBuffer(void){
 /* Checks if database is empty or not, so we prevent users
 from searching/deleting.
 */
-void answerChecker(int* answer) {
+void DatabaseIsNotFull(int* answer) {
     int noc;
     if (*answer == 5 || *answer == 6 || *answer == 7) {
         FILE* fp3;
@@ -59,14 +59,14 @@ void answerChecker(int* answer) {
 /* Checks if database is full or not, so we prevent users
 from adding more data.
 */
-void answerChecker2(int* answer) {
+void DatabaseIsFull(int* answer) {
     int noc;
     if (*answer == 1 || *answer == 3 || *answer == 4) {
         FILE* fp3;
         FILE* fp4;
 
         fp3 = fopen("Text/Names_Storage.txt", "r");
-        fp4 = fopen("Text/ID_Storage.txt", "r");
+        fp4 = fopen("Text/Password_ID.txt", "r");
 
         if (!fp3 || !fp4) {
             printf("Error: Unable to open files.\n");
@@ -78,7 +78,7 @@ void answerChecker2(int* answer) {
         int size = ftell(fp3);
         int size2 = ftell(fp4);
 
-        while ((size >= 999999 || size2 >= 999999) && (*answer == 1 || *answer == 3 || *answer == 4)) {
+        while ((size >= 4999999 || size2 >= 4999999) && (*answer == 1 || *answer == 3 || *answer == 4)) {
             printf("Database is full. Please select a different option:\n");
             noc = scanf("%d", answer);
             clearKeyboardBuffer();
@@ -100,7 +100,10 @@ void answerChecker2(int* answer) {
     }
 }
 
-void answerChecker3(int* answer, int* IDNum) {
+/* Checks if database is empty or not for that particular user, so we prevent him/her
+from searching/deleting.
+*/
+void DatabaseIsEmptyForUser(int* answer, int* IDNum) {
     int noc;
     if (*answer == 5 || *answer == 6 || *answer == 7) {
         FILE* fp3; FILE* fplog; FILE* fpID;
@@ -178,7 +181,10 @@ void answerChecker3(int* answer, int* IDNum) {
     }
 }
 
-void IDChecker(int n) {
+/* Creates a new account ID and checks to see if its unique,
+otherwise keep on generating one where we get a new id
+*/
+void CreateNewAccIDAndWriteIt(int n) {
     int numVal = 0;
     FILE* fp2;
 
@@ -192,7 +198,7 @@ void IDChecker(int n) {
     while (fscanf(fp2, "%d", &numVal) != EOF) {
         if (n == numVal) {
             n = rand() % 999999 + 1;
-            IDChecker(n);
+            CreateNewAccIDAndWriteIt(n);
         }
     }
 
@@ -212,7 +218,7 @@ void IDChecker(int n) {
     return;
 }
 
-void IDChecker2(int* num) {
+void CheckIfAccIDExist(int* num) {
     int numVal = 0;
     int counter1 = 0;
     int counter2 = 0;
@@ -230,7 +236,7 @@ void IDChecker2(int* num) {
         printf("Error: ID number does not exist. Please Try Again\n");
         scanf("%d", num);
         clearKeyboardBuffer();
-        IDChecker2(num);
+        CheckIfAccIDExist(num);
     }
 
     fclose(fp2);
@@ -238,7 +244,7 @@ void IDChecker2(int* num) {
     return;
 }
 
-void IDChecker3(int* n) {
+void CreateNewAccID(int* n) {
     int numVal = 0;
     FILE* fp2;
 
@@ -252,7 +258,7 @@ void IDChecker3(int* n) {
     while (fscanf(fp2, "%d", &numVal) != EOF) {
         if (*n == numVal) {
             *n = rand() % 999999 + 1;
-            IDChecker3(n);
+            CreateNewAccID(n);
         }
     }
 
@@ -261,7 +267,7 @@ void IDChecker3(int* n) {
     return;
 }
 
-void IDChecker4(int* IDNum, int* num) {
+void CheckIfAccIDIsYours(int* IDNum, int* num) {
     while (*IDNum != *num) {
         printf("This ID does not belong to yours, enter again!\n");
         scanf("%d", num);
@@ -270,7 +276,7 @@ void IDChecker4(int* IDNum, int* num) {
     return;
 }
 
-void IDChecker5(int* n) {
+void CreateNewPassIDAndWriteIt(int* n) {
     int numVal = 0;
     FILE* fp2;
 
@@ -284,7 +290,7 @@ void IDChecker5(int* n) {
     while (fscanf(fp2, "%d", &numVal) != EOF) {
         if (*n == numVal) {
             *n = rand() % 999999 + 1;
-            IDChecker5(n);
+            CreateNewPassIDAndWriteIt(n);
         }
     }
 
@@ -304,7 +310,7 @@ void IDChecker5(int* n) {
     return;
 }
 
-void IDChecker6(int* num) {
+void CheckIfPassIDExist(int* num) {
     int numVal = 0;
     int counter1 = 0;
     int counter2 = 0;
@@ -322,7 +328,7 @@ void IDChecker6(int* num) {
         printf("Error: Password ID number does not exist. Please Try Again\n");
         scanf("%d", num);
         clearKeyboardBuffer();
-        IDChecker6(num);
+        CheckIfPassIDExist(num);
     }
 
     fclose(fp2);
@@ -330,7 +336,7 @@ void IDChecker6(int* num) {
     return;
 }
 
-Boolean IDChecker7(int* num, int* acc, sqlite3* db) {
+Boolean CheckIfPassIDIsYoursBeforeUpdating(int* num, int* acc, sqlite3* db) {
     const char* data = "PrintData function called";
     char sql[100] = "select * from PASSWORD where PASS_ID =";
     char* errMesg = 0;
@@ -350,7 +356,7 @@ Boolean IDChecker7(int* num, int* acc, sqlite3* db) {
     int result = sqlite3_prepare_v2(db, sql, -1, &selectstmt, NULL);
     if (result == SQLITE_OK) {
         if (sqlite3_step(selectstmt) == SQLITE_ROW) {
-            int ret = sqlite3_exec(db, sql, PrintData2, (void*)data, &errMesg);
+            int ret = sqlite3_exec(db, sql, PrintUpdatedDataInDB, (void*)data, &errMesg);
 
             if (ret != SQLITE_OK) {
                 printf("Error in SQL statement: %s\n", errMesg);
@@ -374,11 +380,12 @@ Boolean IDChecker7(int* num, int* acc, sqlite3* db) {
         printf("Enter again:\n");
         scanf("%d", num);
         clearKeyboardBuffer();
-        IDChecker7(num, acc, db);
+        CheckIfPassIDIsYoursBeforeUpdating(num, acc, db);
         return FALSE;
     }
 }
 
+// Checks if the password ID that you input exists or not
 void PasswordIDChecker(int* num) {
     int numVal = 0;
     int counter1 = 0;
@@ -405,7 +412,8 @@ void PasswordIDChecker(int* num) {
     return;
 }
 
-Boolean PasswordIDChecker2(int* num, int IDNum) {
+// Check if the password ID is yours or not
+Boolean CheckIfPasswordID_IsYours(int* num, int IDNum) {
     int numVal = 0;
     int lineNum = 1;
     FILE* fp2;
@@ -510,7 +518,7 @@ Boolean PasswordIDChecker2(int* num, int IDNum) {
     }
 }
 
-void NameChecker(char* line) {
+void EmailChecker(char* line) {
     int counter1 = 0, counter2 = 0;
     char* rname = NULL;
     size_t len = 0;
@@ -541,7 +549,7 @@ void NameChecker(char* line) {
         len = getline(&line, &len, stdin);
         line[len] = '\0';
 
-        NameChecker(line);
+        EmailChecker(line);
     }
 
     free(rname);
@@ -587,7 +595,7 @@ Boolean LoginChecker(char* line) {
     }
 }
 
-void emailChecker(char* line, int* IDNum) {
+void checkIfLoginEmailExists(char* line, int* IDNum) {
     FILE *fplog = fopen("Text/LoginStorage.txt", "r");
     FILE *fpID = fopen("Text/ID_Storage.txt", "r");
 
@@ -626,7 +634,7 @@ void emailChecker(char* line, int* IDNum) {
         printf("You do not have access to this email, it ain't yours, enter a different email\n");
         len = getline(&line, &len, stdin);
         line[len] = '\0';
-        emailChecker(line, IDNum);
+        checkIfLoginEmailExists(line, IDNum);
     }
     fclose(fpID);
     return;
@@ -682,7 +690,7 @@ Boolean refWordValidCheck(char* ref, int* IDNum) {
     }
 }
 
-Boolean emailValid(char* stri3) {
+Boolean CheckIfEmailExistsAlready(char* stri3) {
     char* rname = NULL;
     size_t len = 0;
     FILE* fp2;
@@ -717,7 +725,7 @@ Boolean emailValid(char* stri3) {
         printf("Please enter something else:\n");
         len = getline(&stri3, &len, stdin);
         stri3[len - 1] = '\0';
-        emailValid(stri3);
+        CheckIfEmailExistsAlready(stri3);
     }
 
     fclose(fp2);
@@ -726,7 +734,7 @@ Boolean emailValid(char* stri3) {
     return b;
 }
 
-char* emailValid2(char* email, int IDNum) {
+char* CheckIfItsYourEmail(char* email, int IDNum) {
     int numVal = 0;
     int lineNum = 1;
     FILE* fpID = fopen("Text/ID_Storage.txt", "r");
@@ -777,13 +785,13 @@ char* emailValid2(char* email, int IDNum) {
         size_t size = 0;
         size = getline(&email, &size, stdin);
         email[size - 1] = '\0';
-        emailValid2(email, IDNum);
+        CheckIfItsYourEmail(email, IDNum);
     }
 
     return email;
 }
 
-int PrintData(void *data, int argc, char **argv, char **ColName) {
+int PrintDataInDB(void *data, int argc, char **argv, char **ColName) {
     int i = 0;
     data = 0;
     printf("Printing...\n");
@@ -796,7 +804,7 @@ int PrintData(void *data, int argc, char **argv, char **ColName) {
     return 0;
 }
 
-int PrintData2(void *data, int argc, char **argv, char **ColName) {
+int PrintUpdatedDataInDB(void *data, int argc, char **argv, char **ColName) {
     int i = 0;
     printf("Updating...\n");
     fprintf(stderr, "%s: ", (const char*)data);
