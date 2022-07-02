@@ -2,14 +2,14 @@
 
 A password storage system that can help manage your password and store them inside a database for safe keeping.
 It has several features and operations to help make your password strong and secure.
-For instance, the system is capable to test the strength of your password that you want to store 
-and also have the ability to scramble your password as well as generate random passwords for
+For instance, the system is capable of testing the strength of the passwords that you want to store 
+while also having the ability to scramble your password as well as generate random passwords for
 you to utilize.
 It also enables search, update, and delete operations for the passwords that you want to select.
 
-In addition to all of this, the system also has encryption and decryption features to help make your password secure.
+In addition to all of this, the system also has encryption and decryption features to help make your password more secure.
 
-If you happen to struggle to find a place to keep your password safely or not sure if its strong enough this is the system
+If you happen to struggle to find a place to keep your password safely or not sure if its strong enough to use then this is the system
 that can help you with this particular issue.
 
 How to set it up and use it:
