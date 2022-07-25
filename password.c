@@ -279,7 +279,7 @@ PASS Update_Password(char* s) {
     }
     password* bad = NULL;
     int strength = 0;
-    char list[] = "1234567890qwertyuiopasdfghjklzxcvbnm!@#%^&*()_-+=QWERTYUIOPASDFGHJKLZXCVBNM[]{};:\"<>,.?/|";
+    char list[] = "1234567890qwertyuiopasdfghjklzxcvbnm!@#%^&*()_-+=QWERTYUIOPASDFGHJKLZXCVBNM[]{};:$<>,.?/|";
     char arr[16] = {'a'};
     srand(time(0));
 

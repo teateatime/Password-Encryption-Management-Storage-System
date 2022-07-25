@@ -413,7 +413,7 @@ void PasswordIDChecker(int* num) {
 }
 
 // Check if the password ID is yours or not
-Boolean CheckIfPasswordID_IsYours(int* num, int IDNum) {
+Boolean CheckIfPasswordID_IsYours(int* num, int IDNum, sqlite3* db) {
     int numVal = 0;
     int lineNum = 1;
     FILE* fp2;
@@ -441,9 +441,17 @@ Boolean CheckIfPasswordID_IsYours(int* num, int IDNum) {
 
     char* email = NULL;
     size_t len = 0;
-    printf("Enter your email address that you used to login to confirm that this is you:\n");
-    len = getline(&email, &len, stdin);
-    email[len - 1] = '\0';
+    int lineNum2 = 1;
+    while ((len = getline(&email, &len, fpemail)) != EOF) {
+        email[len - 1] = '\0';
+        if (lineNum2 == lineNum) {
+            break;
+        } else {
+            lineNum2++;
+        }
+    }
+
+    fclose(fpemail);
 
     int val = 1;
     while (fscanf(fpID, "%d", &numVal) != EOF) {
@@ -453,6 +461,8 @@ Boolean CheckIfPasswordID_IsYours(int* num, int IDNum) {
             val++;
         }
     }
+
+    fclose(fpID);
 
     MY_STRING s1 = my_string_init_c_string(email);
     char* mail = NULL;
@@ -466,56 +476,22 @@ Boolean CheckIfPasswordID_IsYours(int* num, int IDNum) {
     }
     MY_STRING m = my_string_init_c_string(mail);
 
+    fclose(fpmail);
+
     if (!my_string_equal(s1, m)) {
         free(email);
         free(mail);
-        fclose(fpemail);
-        fclose(fpID);
-        fclose(fpmail);
         my_string_destroy(&s1);
         my_string_destroy(&m);
 
         return FALSE;
     }
 
-    MY_STRING s2 = NULL;
-
-    char* remail = NULL;
-    int lineNum2 = 1;
-    while ((len = getline(&remail, &len, fpemail)) != EOF) {
-        remail[len - 1] = '\0';
-        s2 = my_string_init_c_string(remail);
-        if (lineNum2 == lineNum) {
-            break;
-        } else {
-            lineNum2++;
-            my_string_destroy(&s2);
-        }
-    }
-
-    if (my_string_equal(s1, s2)) {
-        free(remail);
-        free(email);
-        free(mail);
-        fclose(fpemail);
-        fclose(fpID);
-        fclose(fpmail);
-        my_string_destroy(&s1);
-        my_string_destroy(&s2);
-        my_string_destroy(&m);
-        return TRUE;
-    } else {
-        free(remail);
-        free(email);
-        free(mail);
-        fclose(fpemail);
-        fclose(fpID);
-        fclose(fpmail);
-        my_string_destroy(&s1);
-        my_string_destroy(&s2);
-        my_string_destroy(&m);
-        return FALSE;
-    }
+    free(email);
+    free(mail);
+    my_string_destroy(&s1);
+    my_string_destroy(&m);
+    return TRUE;
 }
 
 void EmailChecker(char* line) {
@@ -636,7 +612,9 @@ void checkIfLoginEmailExists(char* line, int* IDNum) {
         line[len] = '\0';
         checkIfLoginEmailExists(line, IDNum);
     }
+
     fclose(fpID);
+    EmailChecker(line);
     return;
 }
 
@@ -818,16 +796,21 @@ int PrintUpdatedDataInDB(void *data, int argc, char **argv, char **ColName) {
 
 void Encryption(char* line) {
     for (int i = 0; (i < 100 && line[i] != '\0'); i++) {
+        if (line[i] == '$') {
+            line[i] += 1;
+        }
         line[i] = line[i] + 3;
     }
 }
 
 char* Decryption(char* line) {
-     for (int i = 0; (i < 100 && line[i] != '\0'); i++) {
+    for (int i = 0; (i < 100 && line[i] != '\0'); i++) {
+        if (line[i] == '$') {
+            line[i] -= 1;
+        }
         line[i] = line[i] - 3;
-     }
-
-     return line;
+    }
+    return line;
 }
 
 void RetrieveData(sqlite3* db, int num) {

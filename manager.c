@@ -174,6 +174,79 @@ void generatePassword(char* arr, int* IDNum, sqlite3* db) {
         }
     }
 
+    char* ref = NULL;
+    printf("Please enter your reference word in order to generate your password:\n");
+    size = getline(&ref, &len, stdin);
+    ref[size - 1] = '\0';
+
+    if (refWordValidCheck(ref, IDNum) == FALSE) {
+        printf("Incorrect reference word!\n");
+        printf("Please Try Again Later.\n");
+        free(ref);
+
+        int ans;
+        printOptions();
+
+        int nc = scanf("%d", &ans);
+        clearKeyboardBuffer();
+        while (nc != 1) {
+            printf("Not a number between 1-8! Enter again!\n");
+            nc = scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        while (ans < 1 || ans > 8) {
+            printf("Not a number between 1-8! Enter again!\n");
+            scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        free(line);
+        free(email);
+        fclose(fp3);
+
+        DatabaseIsNotFull(&ans);
+        DatabaseIsFull(&ans);
+        DatabaseIsEmptyForUser(&ans, IDNum);
+
+        while (ans > 0) {
+            if (ans == 1) {
+                printf("Entering StorePassword()...\n");
+                StorePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 2) {
+                printf("Entering TestPassword()...\n");
+                TestPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 3) {
+                printf("Entering generatePass word()...\n");
+                generatePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 4) {
+                printf("Entering ScramblePassword()...\n");
+                ScramblePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 5) {
+                printf("Entering SearchPassword()...\n");
+                SearchPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 6) {
+                printf("Entering UpdateCurrentPass()...\n");
+                UpdateCurrentPass(arr, IDNum, db);
+                return;
+            } else if (ans == 7) {
+                printf("Entering DeletePasswordContent()...\n");
+                DeletePasswordContent(arr, IDNum, db);
+                return;
+            } else {
+                printf("Returning to Main Menu...\n\n");
+                return;
+            }
+        }
+    }
+
+    free(ref);
+
     fprintf(fp3, "%s\n", email);
 
     fclose(fp3);
@@ -383,6 +456,80 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
         }
     }
 
+    char* ref = NULL;
+    printf("Please enter your reference word in order to store your password:\n");
+    size = getline(&ref, &len, stdin);
+    ref[size - 1] = '\0';
+
+    if (refWordValidCheck(ref, IDNum) == FALSE) {
+        printf("Incorrect reference word!\n");
+        printf("Please Try Again Later.\n");
+        free(ref);
+
+        int ans;
+        printOptions();
+
+        int nc = scanf("%d", &ans);
+        clearKeyboardBuffer();
+        while (nc != 1) {
+            printf("Not a number between 1-8! Enter again!\n");
+            nc = scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        while (ans < 1 || ans > 8) {
+            printf("Not a number between 1-8! Enter again!\n");
+            scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        free(line);
+        free(email);
+
+        fclose(fp3);
+
+        DatabaseIsNotFull(&ans);
+        DatabaseIsFull(&ans);
+        DatabaseIsEmptyForUser(&ans, IDNum);
+
+        while (ans > 0) {
+            if (ans == 1) {
+                printf("Entering StorePassword()...\n");
+                StorePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 2) {
+                printf("Entering TestPassword()...\n");
+                TestPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 3) {
+                printf("Entering generatePass word()...\n");
+                generatePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 4) {
+                printf("Entering ScramblePassword()...\n");
+                ScramblePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 5) {
+                printf("Entering SearchPassword()...\n");
+                SearchPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 6) {
+                printf("Entering UpdateCurrentPass()...\n");
+                UpdateCurrentPass(arr, IDNum, db);
+                return;
+            } else if (ans == 7) {
+                printf("Entering DeletePasswordContent()...\n");
+                DeletePasswordContent(arr, IDNum, db);
+                return;
+            } else {
+                printf("Returning to Main Menu...\n\n");
+                return;
+            }
+        }
+    }
+
+    free(ref);
+
     fprintf(fp3, "%s\n", email);
 
     fclose(fp3);
@@ -416,7 +563,7 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
     Password_Calc_Strength(pass, line2);
 
     char* s = getData(pass);
-    if (getStrength(pass) <= 100) {
+    if (getStrength(pass) < 100) {
         printf("Your password strength is kind of weak, its strength is at %d.\n", getStrength(pass));
         printf("A decent password would normally have a strength of at least 100.\n");
         printf("Would you like us to create and generate a new password for you?\n");
@@ -627,6 +774,80 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
         }
     }
 
+    char* ref = NULL;
+    printf("Please enter your reference word in order to generate your password:\n");
+    size = getline(&ref, &len, stdin);
+    ref[size - 1] = '\0';
+
+    if (refWordValidCheck(ref, IDNum) == FALSE) {
+        printf("Incorrect reference word!\n");
+        printf("Please Try Again Later.\n");
+        free(ref);
+
+        int ans;
+        printOptions();
+
+        int nc = scanf("%d", &ans);
+        clearKeyboardBuffer();
+        while (nc != 1) {
+            printf("Not a number between 1-8! Enter again!\n");
+            nc = scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        while (ans < 1 || ans > 8) {
+            printf("Not a number between 1-8! Enter again!\n");
+            scanf("%d", &ans);
+            clearKeyboardBuffer();
+        }
+
+        free(line);
+        free(email);
+
+        fclose(fp3);
+
+        DatabaseIsNotFull(&ans);
+        DatabaseIsFull(&ans);
+        DatabaseIsEmptyForUser(&ans, IDNum);
+
+        while (ans > 0) {
+            if (ans == 1) {
+                printf("Entering StorePassword()...\n");
+                StorePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 2) {
+                printf("Entering TestPassword()...\n");
+                TestPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 3) {
+                printf("Entering generatePass word()...\n");
+                generatePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 4) {
+                printf("Entering ScramblePassword()...\n");
+                ScramblePassword(arr, IDNum, db);
+                return;
+            } else if (ans == 5) {
+                printf("Entering SearchPassword()...\n");
+                SearchPassword(arr, IDNum, db);
+                return;
+            } else if (ans == 6) {
+                printf("Entering UpdateCurrentPass()...\n");
+                UpdateCurrentPass(arr, IDNum, db);
+                return;
+            } else if (ans == 7) {
+                printf("Entering DeletePasswordContent()...\n");
+                DeletePasswordContent(arr, IDNum, db);
+                return;
+            } else {
+                printf("Returning to Main Menu...\n\n");
+                return;
+            }
+        }
+    }
+
+    free(ref);
+
     fprintf(fp3, "%s\n", email);
 
     fclose(fp3);
@@ -753,7 +974,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
     int num = 0;
 
     int ans;
-    printf("\nWhat are you searching for?\n");
+    printf("\nSearching what kind of password(s) you stored up?\n");
     printf("Press (1) if you want to search by email address\n");
     printf("Press (2) if you want to search by Account ID\n");
     printf("Press (3) if you want to search by Password ID\n");
@@ -777,7 +998,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
     char* errMesg = 0;
 
     if (ans == 1) {
-        printf("Please enter the email address that you want to search for:\n");
+        printf("Please enter your email address:\n");
         len = getline(&line, &len, stdin);
 
         item = "Email";
@@ -835,15 +1056,14 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             printf("\n");
 
             PasswordIDChecker(&num);
-            if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
-                printf("Incorrect email!\n");
+            if (CheckIfPasswordID_IsYours(&num, *IDNum, db) == FALSE) {
+                printf("This ID either does not belong to you or it does not exist!\n");
                 printf("Please Try Again Later.\n");
 
                 free(line);
 
                 int answer;
                 printOptions();
-
 
                 int noc = scanf("%d", &answer);
                 clearKeyboardBuffer();
@@ -900,7 +1120,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             }
 
             char* ref = NULL;
-            printf("Please enter your reference word in order to update your password:\n");
+            printf("Please enter your reference word in order to decrypt your password:\n");
             size_t siz = getline(&ref, &siz, stdin);
             ref[siz - 1] = '\0';
 
@@ -908,6 +1128,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
                 printf("Incorrect reference word!\n");
                 printf("Please Try Again Later.\n");
                 free(ref);
+                free(line);
 
                 int answer;
                 printOptions();
@@ -1023,8 +1244,8 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             printf("\n");
 
             PasswordIDChecker(&num);
-            if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
-                printf("Incorrect email!\n");
+            if (CheckIfPasswordID_IsYours(&num, *IDNum, db) == FALSE) {
+                printf("This ID either does not belong to you or it does not exist!\n");
                 printf("Please Try Again Later.\n");
 
                 int answer;
@@ -1085,7 +1306,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
             }
 
             char* ref = NULL;
-            printf("Please enter your reference word in order to update your password:\n");
+            printf("Please enter your reference word in order to decrypt your password:\n");
             size_t siz = getline(&ref, &siz, stdin);
             ref[siz - 1] = '\0';
 
@@ -1161,8 +1382,8 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
         printf("\n");
 
         PasswordIDChecker(&num);
-        if (CheckIfPasswordID_IsYours(&num, *IDNum) == FALSE) {
-            printf("Incorrect email!\n");
+        if (CheckIfPasswordID_IsYours(&num, *IDNum, db) == FALSE) {
+            printf("This ID either does not belong to you or it does not exist!\n");
             printf("Please Try Again Later.\n");
 
             int answer;
@@ -1261,7 +1482,7 @@ void SearchPassword(char* arr, int* IDNum, sqlite3* db) {
 
         if (val == 1) {
             char* ref = NULL;
-            printf("Please enter your reference word in order to update your password:\n");
+            printf("Please enter your reference word in order to decrypt your password:\n");
             size_t siz = getline(&ref, &siz, stdin);
             ref[siz - 1] = '\0';
 
@@ -1495,11 +1716,15 @@ void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db) {
     size = getline(&line, &len, stdin);
     line[size - 1] = '\0';
 
+    PASS p = NULL;
     char tmp[100];
-    char* li = line;
+
     sprintf(tmp, "%d", num);
 
     Encryption(line);
+    p = Password_Str(line);
+    char* li = getData(p);
+    password_destroy(&p);
 
     strcat(line, "' WHERE PASS_ID =");
     strcat(dest, line);
@@ -1611,7 +1836,7 @@ void DeletePasswordContent(char* arr, int* IDNum, sqlite3* db) {
     CheckIfPassIDIsYoursBeforeUpdating(&num, IDNum, db);
 
     char* ref = NULL;
-    printf("Please enter your reference word in order to update your password:\n");
+    printf("Please enter your reference word in order to delete your password:\n");
     size_t siz = getline(&ref, &siz, stdin);
     ref[siz - 1] = '\0';
 
