@@ -39,7 +39,7 @@ Boolean refWordValidCheck(char* ref, int* IDNum);
 
 void PasswordIDChecker(int* num);
 
-Boolean CheckIfPasswordID_IsYours(int* num, int IDNum);
+Boolean CheckIfPasswordID_IsYours(int* num, int IDNum, sqlite3* db);
 
 Boolean CheckIfEmailExistsAlready(char* email);
 
