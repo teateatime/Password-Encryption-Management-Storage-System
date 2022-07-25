@@ -902,6 +902,47 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
 
     password_destroy(&pass2);
 
+    PASS pass3 = NULL;
+    pass3 = Password_Str(line2);
+    Password_Calc_Strength(pass3, line2);
+    free(line2);
+
+    line2 = getData(pass3);
+    if (getStrength(pass3) < 100) {
+        printf("Your password strength is kind of weak, its strength is at %d.\n", getStrength(pass3));
+        printf("A decent password would normally have a strength of at least 100.\n");
+        printf("Would you like us to create and generate a new password for you?\n");
+        printf("Enter (1) if yes\n");
+        printf("Enter (2) if no\n");
+
+        int n = 0;
+        int x = scanf("%d", &n);
+        clearKeyboardBuffer();
+
+        while (x != 1) {
+            printf("Not a number between 1-2! Enter again!\n");
+            x = scanf("%d", &n);
+            clearKeyboardBuffer();
+        }
+
+        while (n < 1 || n > 2) {
+            printf("Not a number between 1-2! Enter again!\n");
+            scanf("%d", &n);
+            clearKeyboardBuffer();
+        }
+
+        if (n == 1) {
+            printf("Generating a new password...\n");
+            password_destroy(&pass3);
+            pass3 = Update_Password(arr);
+            Password_Print_Strength(pass3);
+            free(line2);
+            line2 = getData(pass3);
+        }
+    }
+
+    password_destroy(&pass3);
+
     PASS p = Update_Password_By_Scramble(arr, line2);
 
     char* t = getData(p);
@@ -930,7 +971,7 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
 
     password_destroy(&p);
     free(line);
-    free(line2);
+
     free(email);
 
     int answer;
