@@ -8,6 +8,9 @@
 int PEMS(int* IDNum);
 void printOptionsinMain(void);
 void CheckIfTwoUserInputValid(int r, int* userInput);
+bool isChar(char c);
+bool isDigit(const char c);
+bool is_valid(char* email);
 
 int main(int argc, char* argv[]) {
     FILE* fplogin;
@@ -81,9 +84,28 @@ int main(int argc, char* argv[]) {
 
         CheckIfEmailExistsAlready(stri3);
 
+        while (!is_valid(stri3)) {
+            printf("Not a valid email address!\nPlease enter again:\n");
+            l = getline(&stri3, &l, stdin);
+            stri3[l - 1] = '\0';
+            CheckIfEmailExistsAlready(stri3);
+        }
+
         printf("Enter your password:\n");
         l = getline(&stri4, &l, stdin);
         stri4[l - 1] = '\0';
+
+        PASS p = Password_Str(stri4);
+
+        while (CheckSpaces(p)) {
+            printf("Password has a space, it should not have that!\n");
+            printf("Please enter another password.\n");
+            l = getline(&stri4, &l, stdin);
+            stri4[l - 1] = '\0';
+            password_destroy(&p);
+            p = Password_Str(stri4);
+        }
+
         printf("Enter your reference word so you can access/manipulate your passwords later on:\n");
         l = getline(&ref, &l, stdin);
         ref[l - 1] = '\0';
@@ -99,6 +121,7 @@ int main(int argc, char* argv[]) {
         fprintf(fpID, "%d\n", rNum);
         fprintf(fpref, "%s\n", ref);
 
+        password_destroy(&p);
         free(ref);
         fclose(fpref);
         fclose(fplogin);
@@ -655,4 +678,36 @@ void CheckIfTwoUserInputValid(int r, int* userInput) {
         scanf("%d", userInput);
         clearKeyboardBuffer();
     }
+}
+
+bool isChar(char c) {
+    return ((c >= 'a' && c <= 'z')
+    || (c >= 'A' && c <= 'Z'));
+}
+
+bool isDigit(const char c) {
+    return (c >= '0' && c <= '9');
+}
+
+bool is_valid(char* email) {
+    if (!isChar(email[0])) {
+        return FALSE;
+    }
+
+    int At = -1, Dot = -1;
+
+    for (int i = 0; i < strlen(email); i++) {
+        if (email[i] == '@') {
+            At = i;
+        } else if (email[i] == '.') {
+            Dot = i;
+        }
+    }
+
+    if (At == -1 || Dot == -1)
+        return 0;
+    if (At > Dot)
+        return 0;
+
+    return !(Dot >= (strlen(email) - 1));
 }

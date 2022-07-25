@@ -558,6 +558,19 @@ void StorePassword(char* arr, int* IDNum, sqlite3* db) {
     size_t size2 = getline(&line2, &len2, stdin);
     line2[size2 - 1] = '\0';
 
+    PASS pass2 = Password_Str(line2);
+
+    while (CheckSpaces(pass2)) {
+        printf("Password has a space, it should not have that!\n");
+        printf("Please enter another password.\n");
+        len = getline(&line2, &len, stdin);
+        line2[len - 1] = '\0';
+        password_destroy(&pass2);
+        pass2 = Password_Str(line2);
+    }
+
+    password_destroy(&pass2);
+
     PASS pass = NULL;
     pass = Password_Str(line2);
     Password_Calc_Strength(pass, line2);
@@ -875,6 +888,19 @@ void ScramblePassword(char* arr, int* IDNum, sqlite3* db) {
     printf("Enter your password:\n");
     size_t size2 = getline(&line2, &len2, stdin);
     line2[size2 - 1] = '\0';
+
+    PASS pass2 = Password_Str(line2);
+
+    while (CheckSpaces(pass2)) {
+        printf("Password has a space, it should not have that!\n");
+        printf("Please enter another password.\n");
+        len = getline(&line2, &len, stdin);
+        line2[len - 1] = '\0';
+        password_destroy(&pass2);
+        pass2 = Password_Str(line2);
+    }
+
+    password_destroy(&pass2);
 
     PASS p = Update_Password_By_Scramble(arr, line2);
 
