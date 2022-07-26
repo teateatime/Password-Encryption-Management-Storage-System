@@ -269,7 +269,7 @@ void CreateNewAccID(int* n) {
 
 void CheckIfAccIDIsYours(int* IDNum, int* num) {
     while (*IDNum != *num) {
-        printf("This ID does not belong to yours, enter again!\n");
+        printf("This is not your Account ID, enter again!\n");
         scanf("%d", num);
         clearKeyboardBuffer();
     }
@@ -572,6 +572,7 @@ Boolean LoginChecker(char* line) {
 }
 
 void checkIfLoginEmailExists(char* line, int* IDNum) {
+    EmailChecker(line);
     FILE *fplog = fopen("Text/LoginStorage.txt", "r");
     FILE *fpID = fopen("Text/ID_Storage.txt", "r");
 
@@ -607,7 +608,7 @@ void checkIfLoginEmailExists(char* line, int* IDNum) {
     }
 
     if (*IDNum != rID) {
-        printf("You do not have access to this email, it ain't yours, enter a different email\n");
+        printf("Error: This email ain't yours, please enter a different email\n");
         len = getline(&line, &len, stdin);
         line[len] = '\0';
         checkIfLoginEmailExists(line, IDNum);
