@@ -76,6 +76,7 @@ PASS Password_Str(char* c_string){
 void Password_Print_Strength(char* str) {
     password* pass = (password*)str;
     int i = 0;
+    char* s = "";
     if (pass == NULL) {
         printf("ERROR: Password_Strength returns NULL\n");
         exit(1);
@@ -86,7 +87,15 @@ void Password_Print_Strength(char* str) {
                 pass->data[i] = '\0';
             }
         }
+        if (pass->strength < 100) {
+            s = "poor";
+        } else if (pass->strength >= 100 && pass->strength < 180) {
+            s = "decent";
+        } else {
+            s = "great";
+        }
         printf("Password Strength of %s is: %d\n", pass->data, pass->strength);
+        printf("Strength is %s\n", s);
         return;
     }
 }
@@ -121,40 +130,34 @@ PASS Password_Calc_Strength(password* str, char* s) {
             if ((pass->data[i] == pass->data[i + 1])) {
                 continue;
             } else {
-                if ((!(isdigit(pass->data[i]))) && (!(isalpha(pass->data[i])))) {
-                    pass->strength += 5;
-                }
                 pass->strength += 10;
             }
         }
 
-        char * tok = strtok(s, "\n");
+        // char * tok = strtok(s, "\n");
 
-        for (int i = 0; i < strlen(tok); i++) {
-            if (tok[i] == '\r') {
-                tok[i] = '\n';
-                strcat(pass->data, "\n");
-            }
-        }
+        // for (int i = 0; i < strlen(tok); i++) {
+        //     if (tok[i] == '\r') {
+        //         tok[i] = '\0';
+        //     }
+        // }
 
-        if (strlen(tok) <= pass->size) {
-            while (tok != NULL) {
-                for (int i = 0; i < strlen(tok); i++) {
-                    if (tok[i] == '\r') {
-                        tok[i] = '\n';
-                    }
-                }
+        // if (strlen(tok) <= pass->size) {
+        //     while (tok != NULL) {
+        //         for (int i = 0; i < strlen(tok); i++) {
+        //             if (tok[i] == '\r') {
+        //                 tok[i] = '\0';
+        //             }
+        //         }
 
-                if (is_substr(tok, pass)) {
-                    for (int i = 0; i < strlen(pass->data); i++) {
-                        pass->strength -= 5;
-                    }
-                    break;
-                }
+        //         if (is_substr(tok, pass)) {
+        //             pass->strength -= 15;
+        //             break;
+        //         }
 
-                tok = strtok(NULL, "\n");
-            }
-        }
+        //         tok = strtok(NULL, "\n");
+        //     }
+        // }
 
         return (PASS) pass;
     }
@@ -233,40 +236,34 @@ PASS Password_Calc_Strength2(password* str, char* s) {
             if ((pass->data[i] == pass->data[i + 1])) {
                 continue;
             } else {
-                if ((!(isdigit(pass->data[i]))) && (!(isalpha(pass->data[i])))) {
-                    pass->strength += 5;
-                }
                 pass->strength += 10;
             }
         }
 
-        char * tok = strtok(s, "\n");
+        // char * tok = strtok(s, "\n");
 
-        for (int i = 0; i < strlen(tok); i++) {
-            if (tok[i] == '\r') {
-                tok[i] = '\n';
-                strcat(pass->data, "\n");
-            }
-        }
+        // for (int i = 0; i < strlen(tok); i++) {
+        //     if (tok[i] == '\r') {
+        //         tok[i] = '\0';
+        //     }
+        // }
 
-        if (strlen(tok) <= pass->size) {
-            while (tok != NULL) {
-                for (int i = 0; i < strlen(tok); i++) {
-                    if (tok[i] == '\r') {
-                        tok[i] = '\n';
-                    }
-                }
+        // if (strlen(tok) <= pass->size) {
+        //     while (tok != NULL) {
+        //         for (int i = 0; i < strlen(tok); i++) {
+        //             if (tok[i] == '\r') {
+        //                 tok[i] = '\0';
+        //             }
+        //         }
 
-                if (is_substr(tok, pass)) {
-                    for (int i = 0; i < strlen(pass->data); i++) {
-                        pass->strength -= 5;
-                    }
-                    break;
-                }
+        //         if (is_substr(tok, pass)) {
+        //             pass->strength -= 15;
+        //             break;
+        //         }
 
-                tok = strtok(NULL, "\n");
-            }
-        }
+        //         tok = strtok(NULL, "\n");
+        //     }
+        // }
 
         return (PASS) pass;
     }
@@ -283,9 +280,9 @@ PASS Update_Password(char* s) {
     char arr[16] = {'a'};
     srand(time(0));
 
-    while (strength < 200) {
+    while (strength < 180) {
         int i = 0;
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < 18; i++) {
             char count = list[rand() % (sizeof(list))];
             arr[i] = count;
         }
@@ -295,7 +292,7 @@ PASS Update_Password(char* s) {
 
         pass = Password_Calc_Strength(pass, s);
 
-        if (pass->strength > 180) {
+        if (pass->strength >= 180) {
             return (PASS) pass;
         } else {
             pass->strength = 0;
@@ -470,6 +467,27 @@ Boolean CheckSpecialChars2(char str) {
     }
 
     return (found_spc_char);
+}
+
+bool password_validate(char *s) {
+    Boolean found_lower = false, found_upper = false;
+    Boolean found_num_char = false;
+    Boolean found_spc_char = false;
+    for (int i = 0; i < strlen(s); i++) {
+        found_lower = found_lower || (s[i] >= 'a' && s[i] <= 'z');
+        found_upper = found_upper || (s[i] >= 'A' && s[i] <= 'Z');
+        found_num_char = found_num_char || (s[i] >= '0' && s[i] <= '9');
+        found_spc_char = found_spc_char || ((s[i] >= '!' && s[i] <= '/') ||
+        (s[i] >= ':' && s[i] <= '@') ||
+        (s[i] >= '[' && s[i] <= '`') ||
+        (s[i] >= '{' && s[i] <= '~'));
+
+        if (found_lower && found_upper && found_num_char && found_spc_char) {
+            break;
+        }
+    }
+
+    return (found_lower && found_upper && found_num_char && found_spc_char);
 }
 
 int getSize(PASS pass) {

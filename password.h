@@ -51,6 +51,8 @@ Boolean CheckSpecialChars2(char str);
 
 Boolean CheckSpaces(password* str);
 
+bool password_validate(char *s);
+
 int getSize(PASS pass);
 
 int getCapacity(PASS pass);

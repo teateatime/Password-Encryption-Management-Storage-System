@@ -70,11 +70,11 @@ int main(int argc, char* argv[]) {
             printf("Error: Failed to open files!\n");
             exit(1);
         }
-        printf("Enter your first name:\n");
+        printf("Enter your first name: (Case Sensitive)\n");
         l = getline(&stri, &l, stdin);
         stri[l - 1] = '\0';
         fprintf(fplogin, "%s ", stri);
-        printf("Enter your last name:\n");
+        printf("Enter your last name: (Case Sensitive)\n");
         l = getline(&stri2, &l, stdin);
         stri2[l - 1] = '\0';
         fprintf(fplogin, "%s ", stri2);
@@ -94,6 +94,13 @@ int main(int argc, char* argv[]) {
         printf("Enter your password:\n");
         l = getline(&stri4, &l, stdin);
         stri4[l - 1] = '\0';
+
+        while (!password_validate(stri4)) {
+            printf("Password is not valid. Its missing either an upper/lowercase letter, number or special character.\n");
+            printf("Please enter your password again:\n");
+            l = getline(&stri4, &l, stdin);
+            stri4[l - 1] = '\0';
+        }
 
         PASS p = Password_Str(stri4);
 
@@ -137,10 +144,10 @@ int main(int argc, char* argv[]) {
 
         while (1) {
             printf("Please enter your first and last name and your password to continue\n");
-            printf("Enter your first name:\n");
+            printf("Enter your first name: (Case Sensitive)\n");
             l = getline(&stri, &l, stdin);
             stri[l - 1] = '\0';
-            printf("Enter your last name:\n");
+            printf("Enter your last name: (Case Sensitive)\n");
             l = getline(&stri2, &l, stdin);
             stri2[l - 1] = '\0';
             printf("Enter your email address:\n");
@@ -261,10 +268,10 @@ int main(int argc, char* argv[]) {
     if (userInput == 1) {
         while (1) {
             printf("Please enter your first and last name and your password to continue\n");
-            printf("Enter your first name:\n");
+            printf("Enter your first name: (Case Sensitive)\n");
             l = getline(&stri7, &l, stdin);
             stri7[l - 1] = '\0';
-            printf("Enter your last name:\n");
+            printf("Enter your last name: (Case Sensitive)\n");
             l = getline(&stri8, &l, stdin);
             stri8[l - 1] = '\0';
             printf("Enter your email address:\n");
@@ -414,7 +421,7 @@ int PEMS(int* IDNum) {
     }
 
     int answer = 0;
-    printf("Welcome to Password Encryption Manangement System!!!\n\n");
+    printf("Welcome to the Password Encryption Manangement System!!!\n\n");
 
     printf("Press (1) if you want to store your password\n");
     printf("Press (2) if you want to test your password strength\n");
