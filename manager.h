@@ -7,14 +7,6 @@
 #include <string.h>
 #include <sqlite3.h>
 
-void StorePassword(char* arr, int* IDNum, sqlite3* db);
-
-void TestPassword(char* arr, int* IDNum, sqlite3* db);
-
-void generatePassword(char* arr, int* IDNum, sqlite3* db);
-
-void ScramblePassword(char* arr, int* IDNum, sqlite3* db);
-
 void SearchPassword(char* arr, int* IDNum, sqlite3* db);
 
 void UpdateCurrentPass(char* arr, int* IDNum, sqlite3* db);
