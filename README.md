@@ -17,7 +17,7 @@ How to set it up and use it:
 First, check if you have git installed.
 ---------------------------------------------------------------
 
-You can do this by entering "git --version" inside the terminal.
+You can do this by entering `git --version` inside the terminal.
 
 If you do not have git installed, there are plenty of sources online to help you get started.
 Here is one of the sources to help you with getting git setup in your system.
