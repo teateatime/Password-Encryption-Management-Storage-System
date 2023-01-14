@@ -13,9 +13,8 @@ If you happen to struggle to find a place to keep your password safely or not su
 that can help you with this particular issue.
 
 How to set it up and use it:
-
-First, check if you have git installed.
 ---------------------------------------------------------------
+First, check if you have git installed.
 
 You can do this by entering `git --version` inside the terminal.
 
